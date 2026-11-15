@@ -1,0 +1,8 @@
+@model IReadOnlyList<Document>
+@{ ViewData["Title"] = "Documents"; }
+<div class="d-flex justify-content-between align-items-center mb-3"><div><h1 class="h3">Documents</h1><p class="text-secondary">Central ecosystem repository</p></div><a class="btn btn-primary" asp-action="Upload">Upload document</a></div>
+<form method="get" class="row g-2 mb-3"><div class="col-md-8"><input class="form-control" name="q" value="@ViewBag.Query" placeholder="Search title, filename or description"></div><div class="col-md-3"><input class="form-control" name="category" value="@ViewBag.Category" placeholder="Category"></div><div class="col-md-1 d-grid"><button class="btn btn-outline-secondary">Go</button></div></form>
+<div class="card"><div class="table-responsive"><table class="table table-hover mb-0"><thead><tr><th>Document</th><th>Category</th><th>Size</th><th>Added</th><th></th></tr></thead><tbody>
+@if (!Model.Any()) { <tr><td colspan="5" class="text-center text-secondary py-5">No documents found.</td></tr> }
+@foreach (var d in Model) { <tr><td><a asp-action="Details" asp-route-id="@d.Id">@d.Title</a><div class="small text-secondary">@d.OriginalFileName</div></td><td>@(d.Category ?? "Uncategorized")</td><td>@($"{d.SizeBytes / 1024d:N0} KB")</td><td>@d.CreatedAtUtc.ToLocalTime().ToString("g")</td><td><a class="btn btn-sm btn-outline-primary" asp-action="Download" asp-route-id="@d.Id">Download</a></td></tr> }
+</tbody></table></div></div>
