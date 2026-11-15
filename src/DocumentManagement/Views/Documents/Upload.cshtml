@@ -1,0 +1,9 @@
+@model UploadDocumentViewModel
+@{ ViewData["Title"] = "Upload"; }
+<h1 class="h3 mb-3">Upload document</h1><div class="card"><div class="card-body">
+<form asp-action="Upload" method="post" enctype="multipart/form-data"><div asp-validation-summary="ModelOnly" class="text-danger"></div>
+<div class="mb-3"><label asp-for="Title" class="form-label"></label><input asp-for="Title" class="form-control"><span asp-validation-for="Title" class="text-danger"></span></div>
+<div class="mb-3"><label asp-for="Description" class="form-label"></label><textarea asp-for="Description" class="form-control"></textarea></div>
+<div class="mb-3"><label asp-for="Category" class="form-label"></label><input asp-for="Category" class="form-control"></div>
+<div class="mb-3"><label asp-for="File" class="form-label">File</label><input asp-for="File" type="file" class="form-control" accept=".pdf,.docx,.xlsx,.pptx,.txt,.csv,.png,.jpg,.jpeg"><div class="form-text">Maximum 50 MB. PDF, Office, TXT, CSV, PNG and JPEG.</div><span asp-validation-for="File" class="text-danger"></span></div>
+<button class="btn btn-primary">Upload</button><a asp-action="Index" class="btn btn-outline-secondary">Cancel</a></form></div></div>
