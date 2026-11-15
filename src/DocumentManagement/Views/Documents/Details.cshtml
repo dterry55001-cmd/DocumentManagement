@@ -1,0 +1,8 @@
+@model Document
+@{ ViewData["Title"] = Model.Title; }
+<div class="d-flex justify-content-between mb-3"><div><h1 class="h3">@Model.Title</h1><div class="text-secondary">@Model.OriginalFileName</div></div><div><a class="btn btn-primary" asp-action="Download" asp-route-id="@Model.Id">Download</a><a class="btn btn-outline-secondary" asp-action="Index">Back</a></div></div>
+<div class="row g-3"><div class="col-lg-7"><div class="card"><div class="card-header">Preview</div><div class="card-body">
+@if (Model.ContentType == "application/pdf" || Model.ContentType.StartsWith("image/") || Model.ContentType == "text/plain") { <iframe src="@Url.Action("Preview", new { id = Model.Id })" title="Document preview" class="w-100 border rounded" style="height:620px"></iframe> } else { <p class="text-secondary">Preview is unavailable for this file type. Download to open it.</p> }
+</div></div></div><div class="col-lg-5"><div class="card"><div class="card-header">Details</div><div class="card-body"><dl class="row">
+<dt class="col-5">Category</dt><dd class="col-7">@(Model.Category ?? "Uncategorized")</dd><dt class="col-5">Description</dt><dd class="col-7">@(Model.Description ?? "—")</dd><dt class="col-5">Type</dt><dd class="col-7">@Model.ContentType</dd><dt class="col-5">Size</dt><dd class="col-7">@Model.SizeBytes.ToString("N0") bytes</dd><dt class="col-5">SHA-256</dt><dd class="col-7 small text-break">@Model.Sha256</dd></dl>
+<form asp-action="Delete" asp-route-id="@Model.Id" method="post" onsubmit="return confirm('Delete this document?')"><button class="btn btn-outline-danger">Delete document</button></form></div></div></div></div>
