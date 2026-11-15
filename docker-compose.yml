@@ -1,0 +1,25 @@
+services:
+  document-management:
+    build:
+      context: .
+      dockerfile: src/DocumentManagement/Dockerfile
+    container_name: document-management
+    ports:
+      - "7009:8080"
+    environment:
+      ASPNETCORE_ENVIRONMENT: Production
+      Storage__RootPath: /app/data
+      Storage__MaxFileSizeBytes: 52428800
+      ConnectionStrings__Documents: "Data Source=/app/data/documents.db"
+    volumes:
+      - document_management_data:/app/data
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD-SHELL", "curl -fsS http://localhost:8080/health || exit 1"]
+      interval: 30s
+      timeout: 5s
+      retries: 3
+      start_period: 20s
+volumes:
+  document_management_data:
+    name: document_management_data
